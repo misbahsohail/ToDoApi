@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 
 module.exports.requireAuth = (req, res, next) => {
-  console.log(req);
   const token = req.cookies.jwt;
 
   // check if token exists and is correct
