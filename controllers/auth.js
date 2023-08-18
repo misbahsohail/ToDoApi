@@ -1,17 +1,10 @@
-const { Sequelize } = require("sequelize");
-const User = require("../models/user");
+const { User } = require("../models");
 const jwt = require("jsonwebtoken");
-
-const sequelize = new Sequelize("todoapp", "root", "1234", {
-  host: "localhost",
-  dialect: "mysql",
-});
+const env = process.env.NODE_ENV || "development";
+const configPath = `${__dirname}/../config/config.json`;
+const config = require(configPath)[env];
 
 module.exports.signup_post = async (req, res) => {
-  await User.sync();
-
-  // res.send(userCreated);
-
   try {
     const userCreated = await User.create(req.body);
     const token = createToken(userCreated.id);
@@ -19,8 +12,6 @@ module.exports.signup_post = async (req, res) => {
     res.status(201).json({ user: userCreated.id });
   } catch (err) {
     res.send({ err: `Failed to create a new record : ${err.message}` });
-  } finally {
-    console.log("DONE");
   }
 };
 
@@ -28,7 +19,6 @@ module.exports.login_post = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    await sequelize.sync();
     const user = await User.login(email, password);
     const token = createToken(user.id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
@@ -46,7 +36,7 @@ module.exports.logout_get = async (req, res) => {
 const maxAge = 3 * 24 * 60 * 60;
 
 const createToken = (id) => {
-  return jwt.sign({ id }, "my sectret", {
+  return jwt.sign({ id }, config.jwt_token, {
     expiresIn: maxAge,
   });
 };
