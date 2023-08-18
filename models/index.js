@@ -17,10 +17,11 @@ if (config.use_env_variable) {
     config
   );
 } else {
-  const { database, username, password, host, dialect } = config;
+  const { database, username, password, host, dialect, seederStorage } = config;
   sequelizeInstance = new Sequelize(database, username, password, {
     host,
     dialect,
+    seederStorage,
   });
 }
 
