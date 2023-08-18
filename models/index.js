@@ -10,16 +10,18 @@ const configPath = `${__dirname}/../config/config.json`;
 const config = require(configPath)[env];
 const db = {};
 
-let sequelize;
+let sequelizeInstance;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
+  sequelizeInstance = new Sequelize(
+    process.env[config.use_env_variable],
     config
   );
+} else {
+  const { database, username, password, host, dialect } = config;
+  sequelizeInstance = new Sequelize(database, username, password, {
+    host,
+    dialect,
+  });
 }
 
 fs.readdirSync(__dirname)
@@ -30,7 +32,7 @@ fs.readdirSync(__dirname)
   })
   .forEach((file) => {
     const model = require(path.join(__dirname, file))(
-      sequelize,
+      sequelizeInstance,
       Sequelize.DataTypes
     );
 
@@ -43,7 +45,6 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+db.sequelizeInstance = sequelizeInstance;
 
 module.exports = db;

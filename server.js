@@ -7,7 +7,7 @@ const db = require("./models");
 // express instance
 const app = express();
 
-db.sequelize
+db.sequelizeInstance
   .authenticate()
   .then(() => {
     console.log("Connection has been established successfully.");

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const bcrypt = require("bcrypt");
 
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize) => {
   const User = sequelize.define("User", {
     email: {
       type: DataTypes.STRING,
