@@ -1,17 +1,13 @@
-const Sequelize = require("sequelize");
 const express = require("express");
 const authRoutes = require("./routes/auth");
 const taskRoutes = require("./routes/tasks");
 const cookieParser = require("cookie-parser");
+const db = require("./models");
+
 // express instance
 const app = express();
 
-const sequelize = new Sequelize("todoapp", "root", "1234", {
-  host: "localhost",
-  dialect: "mysql",
-});
-
-sequelize
+db.sequelize
   .authenticate()
   .then(() => {
     console.log("Connection has been established successfully.");
@@ -27,19 +23,3 @@ app.use(cookieParser());
 
 app.use(authRoutes);
 app.use(taskRoutes);
-
-// app.get("/set-cookies", (req, res) => {
-//   //res.setHeader("Set-Cookies", "newUser=true");
-
-//   res.cookie("newUser", false);
-//   res.cookie("newEmp", true, { maxAge: 1000 * 60 * 60 * 24 });
-//   //res.cookie('')
-//   res.send("");
-// });
-
-// app.get("/read-cookies", (req, res) => {
-//   const cookies = req.cookies;
-//   console.log(cookies);
-
-//   res.json(cookies);
-// });
