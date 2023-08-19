@@ -1,6 +1,6 @@
 const { Task } = require("../models");
 
-module.exports.add_task = async (req, res) => {
+module.exports.addTask = async (req, res) => {
   try {
     console.log({ userId: res.locals.userId });
     const { title, body } = req.body;
@@ -17,7 +17,7 @@ module.exports.add_task = async (req, res) => {
   }
 };
 
-module.exports.get_tasks = async (req, res) => {
+module.exports.getTasks = async (req, res) => {
   try {
     const tasks = await Task.findAll();
     res.send(tasks);
