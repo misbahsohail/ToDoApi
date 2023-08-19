@@ -17,6 +17,11 @@ module.exports = (sequelize) => {
       allowNull: false,
       required: true,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      required: true,
+    },
     isCompleted: {
       type: DataTypes.BOOLEAN,
       required: true,
