@@ -26,6 +26,13 @@ module.exports = (sequelize) => {
       required: true,
     },
   });
+
+  User.associate = (models) => {
+    User.hasMany(models.Task, {
+      foreignKey: "userId",
+    });
+  };
+
   User.beforeCreate(async (user) => {
     const salt = await bcrypt.genSalt();
     user.password = await bcrypt.hash(user.password, salt);

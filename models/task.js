@@ -27,5 +27,10 @@ module.exports = (sequelize) => {
       required: true,
     },
   });
+
+  Task.associate = (models) => {
+    Task.belongsTo(models.User, { foreignKey: "userId" });
+  };
+
   return Task;
 };
