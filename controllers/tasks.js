@@ -2,7 +2,6 @@ const { Task } = require("../models");
 
 module.exports.addTask = async (req, res) => {
   try {
-    console.log({ userId: res.locals.userId });
     const { title, body } = req.body;
     const taskCreated = await Task.create({
       title,

@@ -2,12 +2,12 @@ const express = require("express");
 const authRoutes = require("./routes/auth");
 const taskRoutes = require("./routes/tasks");
 const cookieParser = require("cookie-parser");
-const db = require("./models");
 
-// express instance
+const { sequelizeInstance } = require("./models");
+
 const app = express();
 
-db.sequelizeInstance
+sequelizeInstance
   .authenticate()
   .then(() => {
     console.log("Connection has been established successfully.");
