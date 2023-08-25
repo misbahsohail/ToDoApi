@@ -4,7 +4,7 @@ const env = process.env.NODE_ENV || "development";
 const configPath = `${__dirname}/../config/config.json`;
 const config = require(configPath)[env];
 
-module.exports.signup_post = async (req, res) => {
+module.exports.signUp = async (req, res) => {
   try {
     const userCreated = await User.create(req.body);
     const token = createToken(userCreated.id);
@@ -15,7 +15,7 @@ module.exports.signup_post = async (req, res) => {
   }
 };
 
-module.exports.login_post = async (req, res) => {
+module.exports.logIn = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -28,7 +28,7 @@ module.exports.login_post = async (req, res) => {
   }
 };
 
-module.exports.logout_get = async (req, res) => {
+module.exports.logOut = async (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.send("User logged out");
 };
